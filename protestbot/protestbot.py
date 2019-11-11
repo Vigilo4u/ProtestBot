@@ -165,8 +165,9 @@ class BotDB():
 
     def __init__(self):
         print("Connecting to database")
+        dir_path = os.path.dirname(os.path.realpath(__file__))
         try:
-            self.conn = sqlite3.connect("protest_log.db")
+            self.conn = sqlite3.connect(dir_path + "/protest_log.db")
         except Error as e:
             print(e)
         self.c = self.conn.cursor()
