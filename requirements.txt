@@ -23,6 +23,6 @@ steem==1.0.0
 steemconnect==0.0.2
 toolz==0.10.0
 ujson==1.35
-urllib3==1.23
+urllib3==1.24.2
 voluptuous==0.11.7
 w3lib==1.21.0
