@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-from protestbot import ProtestBot
+from protestbot.protestbot import ProtestBot
 
 # Entry point
 def run(args=None):
