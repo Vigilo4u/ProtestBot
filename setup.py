@@ -18,7 +18,7 @@ setup(
     py_modules=['protestbot'],
     entry_points = {
         'console_scripts': [
-            'runbot=protestbot.runbot:run',
+            'runbot=protestbot.start:run',
         ],
     },
     zip_safe=False
