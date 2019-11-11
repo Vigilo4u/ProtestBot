@@ -9,7 +9,7 @@ class Config:
         self.posttitle = "Fuck themarkymark"
         self.tags = ['themarkymark', 'newsteem', 'downvotes', 'whales', 'steemitinc']
         self.downvote = True
-        self.downvoteweight = -50
+        self.weight = -50
 
 
 # EOF
