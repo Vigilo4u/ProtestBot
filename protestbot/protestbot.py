@@ -4,7 +4,7 @@ from sqlite3 import Error
 import sys
 import re
 import importlib
-
+import os
 
 
 class ProtestBot:
@@ -116,7 +116,6 @@ class ProtestBot:
                     self.steem.vote(r, weight=self.cfg.weight)
             
 
-
     def post_to_profile(self):
         pmsg = self.protest_temp()
         permlink = re.sub(r' ', '-', self.cfg.title)
@@ -125,11 +124,25 @@ class ProtestBot:
         self.steem.post(title, pmsg, permlink, self.cfg.tags)
 
 
+    def template(self, filename):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        if os.path.exists(dir_path + "/" + filename):
+            with open(dir_path + "/" + filename,'rb') as f:
+                try:
+                    msg = f.read()
+                except:
+                    f.close()
+                    print("\nCould not open post_template.txt!\n")
+                    return None
+                else:
+                    f.close()
+                    return msg
+        return None
+
+
     def protest_temp(self):
-        bfile = open("protest_template.txt",'r')
-        msg = bfile.read()
-        bfile.close()
-        pmsg = msg.format(self.abuser_of_power, 
+        msg = self.template("protest_template.txt")
+        return msg.format(self.abuser_of_power, 
                         self.abuser_of_power,
                         self.protester_account,
                         self.protester_account,
@@ -138,16 +151,13 @@ class ProtestBot:
                         self.protester_account,
                         self.protester_account,
                         self.protester_account)
-        return pmsg
 
 
     def memo_temp(self):
-        bfile = open("memo_template.txt",'r')
-        msg = bfile.read()
-        bfile.close()
-        pmsg = msg.format(self.abuser_of_power, 
+        msg = self.template("memo_template.txt")
+        return msg.format(self.abuser_of_power, 
                         self.abuser_of_power)
-        return pmsg
+
 
 
 class BotDB():
