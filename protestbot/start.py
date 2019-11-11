@@ -17,23 +17,31 @@ The botname is optional. It should be the name of a python module copied from se
 List of commands
 
 
-reply-to-abuser                 Replies to all posts and comments made by the abuser 
-                                of power using the protest_template.txt.
+reply-to-abuser                 Replies to all posts and comments made by 
+                                the abuser of power using the 
+                                protest_template.txt.
 
-reply-to-abuser-friends         Replies to all comments left by others on the abuser's posts.
-                                Also uses the protest_template.txt. This command takes two arguments:
+reply-to-abuser-friends         Replies to all comments left by others on 
+                                the abuser's posts. Also uses the 
+                                protest_template.txt. This command takes 
+                                two arguments:
                                 1) The title of the post 2) a list of 5 tags.
 
-abused                          Prints out a list of those the abuser downvoted recently.
+abused                          Prints out a list of those the abuser 
+                                downvoted recently.
 
-memos                           Sends 0.001 transactions to those the abuser downvoted along with
-                                the message in memo_template.txt
+memos                           Sends 0.001 transactions to those the abuser 
+                                downvoted along with the message in 
+                                memo_template.txt
 
-balance                         Prints the current STEEM and SBD balance for the bot.
+balance                         Prints the current STEEM and SBD balance 
+                                for the bot.
 
-replies                         Prints a list of all replies recently made by the abuser.
+replies                         Prints a list of all replies recently made 
+                                by the abuser.
 
-replies-to-friends              Prints a list of replies recently made to the abuser's post by others.
+replies-to-friends              Prints a list of replies recently made to 
+                                the abuser's post by others.
 
 
 ''')
@@ -53,7 +61,7 @@ replies-to-friends              Prints a list of replies recently made to the ab
 
 def commander(selectedbot, command):
     # import the settings based on which bot we're using
-    b = ProtestBot(botname=selectedbot)
+    a = ProtestBot(botname=selectedbot)
 
     # The various commands
     if command == "reply-to-abuser":
