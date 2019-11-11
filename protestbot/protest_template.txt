@@ -1,0 +1,10 @@
+# Don't like {} either? This bot downvotes everything {} posts. Help by delegating:
+[5](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=5%20SP) | [10](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=10%20SP) | [20](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=20%20SP) | [50](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=50%20SP) | [100](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=100%20SP) | [500](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=500%20SP) | [1000](https://v2.steemconnect.com/sign/delegate-vesting-shares?delegatee={}&vesting_shares=1000%20SP)
+
+## [Unvote {} for witness here](https://steemitwallet.com/~witnesses)
+
+
+YOUR PROTEST MESSAGE HERE
+
+
+[Clone this protest bot](https://github.com/vigilo4u/protestbot)
