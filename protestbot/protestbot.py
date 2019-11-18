@@ -33,6 +33,7 @@ class ProtestBot:
             return None
         for a in h:
             if a[1]['op'][0] == "comment":
+                ident = None
                 if friends:
                     if (a[1]['op'][1]['author'] != self.abuser_of_power):
                         permlink = a[1]['op'][1]['permlink']
@@ -42,15 +43,16 @@ class ProtestBot:
                     if (a[1]['op'][1]['author'] == self.abuser_of_power):
                         permlink = a[1]['op'][1]['permlink']
                         ident = self.steem.util.identifier(self.abuser_of_power, permlink)
-                duplicate_found = False
-                for r in self.replies:
-                    if r == ident:
-                        duplicate_found = True
-                if not duplicate_found:
-                    if not self.db.already_posted(ident):
-                        self.replies.append(ident)
-                        print("\n__ *new post* __")
-                        print(ident)
+                if ident is not None:
+                    duplicate_found = False
+                    for r in self.replies:
+                        if r == ident:
+                            duplicate_found = True
+                    if not duplicate_found:
+                        if not self.db.already_posted(ident):
+                            self.replies.append(ident)
+                            print("\n__ *new post* __")
+                            print(ident)
 
 
     def find_downvoted_authors(self):
