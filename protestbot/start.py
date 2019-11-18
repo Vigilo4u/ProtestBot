@@ -79,7 +79,7 @@ def commander(selectedbot, command):
     elif command == "replies":
         a.get_all_posts_and_replies()
     elif command == "replies-to-friends":
-        a.get_all_posts_and_replies(parent=True)
+        a.get_all_posts_and_replies(friends=True)
     else:
         print ("Invalid command.")
 
