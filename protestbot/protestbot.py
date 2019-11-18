@@ -24,66 +24,55 @@ class ProtestBot:
         self.db = BotDB()
         self.db.initialize_database()
         self.db.initialize_abused_database()
-        self.h = None
 
-
-    def load_history(self):
-        for num in range(3):
-            print("Attempt number " + str(num))
-            try:
-                self.h = self.steem.get_my_history(account=self.abuser_of_power, limit=1000)
-            except Exception as e:
-                print(e)
-                print("Trying again...")
-            else:
-                break
                 
-
     def get_all_posts_and_replies(self, friends=False):
         print("     __ Retrieving abuser's history __\n\n")
-        self.load_history()
-        if self.h:
-            for a in self.h:
-                if a[1]['op'][0] == "comment":
-                    if friends:
-                        if (a[1]['op'][1]['author'] != self.abuser_of_power):
-                            permlink = a[1]['op'][1]['permlink']
-                            author = a[1]['op'][1]['author']
-                            ident = self.steem.util.identifier(author, permlink)
-                    else:
-                        if (a[1]['op'][1]['author'] == self.abuser_of_power):
-                            permlink = a[1]['op'][1]['permlink']
-                            ident = self.steem.util.identifier(self.abuser_of_power, permlink)
-                    duplicate_found = False
-                    for r in self.replies:
-                        if r == ident:
-                            duplicate_found = True
-                    if not duplicate_found:
-                        if not self.db.already_posted(ident):
-                            self.replies.append(ident)
-                            print("\n__ *new post* __")
-                            print(ident)
+        h = self.steem.get_my_history(account=self.abuser_of_power, limit=1000)
+        if h is False or h is None:
+            return None
+        for a in h:
+            if a[1]['op'][0] == "comment":
+                if friends:
+                    if (a[1]['op'][1]['author'] != self.abuser_of_power):
+                        permlink = a[1]['op'][1]['permlink']
+                        author = a[1]['op'][1]['author']
+                        ident = self.steem.util.identifier(author, permlink)
+                else:
+                    if (a[1]['op'][1]['author'] == self.abuser_of_power):
+                        permlink = a[1]['op'][1]['permlink']
+                        ident = self.steem.util.identifier(self.abuser_of_power, permlink)
+                duplicate_found = False
+                for r in self.replies:
+                    if r == ident:
+                        duplicate_found = True
+                if not duplicate_found:
+                    if not self.db.already_posted(ident):
+                        self.replies.append(ident)
+                        print("\n__ *new post* __")
+                        print(ident)
 
 
     def find_downvoted_authors(self):
         print("     __ Retrieving list of the abused __\n\n")
-        self.load_history()
-        if self.h:
-            for a in self.h:
-                if a[1]['op'][0] == "vote":
-                    if (a[1]['op'][1]['voter'] == self.abuser_of_power):
-                        if (a[1]['op'][1]['weight'] < 0):
-                            author = a[1]['op'][1]['author']
-                            permlink = a[1]['op'][1]['permlink']
-                            ident = self.steem.util.identifier(author, permlink)
-                            duplicate_found = False
-                            for b in self.the_abused:
-                                if b == author:
-                                    duplicate_found = True
-                            if not duplicate_found:
-                                self.the_abused.append(author)
-                                print("\n__ *newly abused* __")
-                                print(author)
+        h = self.steem.get_my_history(account=self.abuser_of_power, limit=1000)
+        if h is False or h is None:
+            return None
+        for a in h:
+            if a[1]['op'][0] == "vote":
+                if (a[1]['op'][1]['voter'] == self.abuser_of_power):
+                    if (a[1]['op'][1]['weight'] < 0):
+                        author = a[1]['op'][1]['author']
+                        permlink = a[1]['op'][1]['permlink']
+                        ident = self.steem.util.identifier(author, permlink)
+                        duplicate_found = False
+                        for b in self.the_abused:
+                            if b == author:
+                                duplicate_found = True
+                        if not duplicate_found:
+                            self.the_abused.append(author)
+                            print("\n__ *newly abused* __")
+                            print(author)
 
 
     def send_memos_to_the_downvoted(self):
