@@ -39,29 +39,30 @@ class ProtestBot:
                 break
                 
 
-    def get_all_posts_and_replies(self, parent=False):
+    def get_all_posts_and_replies(self, friends=False):
         print("     __ Retrieving abuser's history __\n\n")
         self.load_history()
         if self.h:
             for a in self.h:
                 if a[1]['op'][0] == "comment":
-                    if (a[1]['op'][1]['author'] == self.abuser_of_power):
-                        if parent:
-                            permlink = a[1]['op'][1]['parent_permlink']
-                            author = a[1]['op'][1]['parent_author']
+                    if friends:
+                        if (a[1]['op'][1]['author'] != self.abuser_of_power):
+                            permlink = a[1]['op'][1]['permlink']
+                            author = a[1]['op'][1]['author']
                             ident = self.steem.util.identifier(author, permlink)
-                        else:
+                    else:
+                        if (a[1]['op'][1]['author'] == self.abuser_of_power):
                             permlink = a[1]['op'][1]['permlink']
                             ident = self.steem.util.identifier(self.abuser_of_power, permlink)
-                        duplicate_found = False
-                        for r in self.replies:
-                            if r == ident:
-                                duplicate_found = True
-                        if not duplicate_found:
-                            if not self.db.already_posted(ident):
-                                self.replies.append(ident)
-                                print("\n__ *new post* __")
-                                print(ident)
+                    duplicate_found = False
+                    for r in self.replies:
+                        if r == ident:
+                            duplicate_found = True
+                    if not duplicate_found:
+                        if not self.db.already_posted(ident):
+                            self.replies.append(ident)
+                            print("\n__ *new post* __")
+                            print(ident)
 
 
     def find_downvoted_authors(self):
@@ -127,7 +128,7 @@ class ProtestBot:
     def template(self, filename):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         if os.path.exists(dir_path + "/" + filename):
-            with open(dir_path + "/" + filename,'rb') as f:
+            with open(dir_path + "/" + filename,'r') as f:
                 try:
                     msg = f.read()
                 except:
@@ -142,7 +143,7 @@ class ProtestBot:
 
     def protest_temp(self):
         msg = self.template("protest_template.txt")
-        return msg.format(self.abuser_of_power, 
+        pmsg = msg.format(self.abuser_of_power, 
                         self.abuser_of_power,
                         self.protester_account,
                         self.protester_account,
@@ -150,7 +151,9 @@ class ProtestBot:
                         self.protester_account,
                         self.protester_account,
                         self.protester_account,
-                        self.protester_account)
+                        self.protester_account,
+                        self.abuser_of_power)
+        return pmsg
 
 
     def memo_temp(self):
