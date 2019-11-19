@@ -67,7 +67,7 @@ def commander(selectedbot, command):
     if command == "reply-to-abuser":
         a.reply_to_abuser_posts()
     elif command == "reply-to-abuser-friends":
-        a.reply_to_abuser_posts(parent=True)
+        a.reply_to_abuser_posts(friends=True)
     elif command == "post":
         a.post_to_profile()
     elif command == "abused":
