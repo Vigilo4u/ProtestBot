@@ -103,12 +103,9 @@ class ProtestBot:
         pmsg = self.protest_temp()
         for r in self.replies:
             if self.steem.reply(r, pmsg):
-                self.db.add_reply(r)
                 if not friends and self.cfg.downvote:
                     self.steem.vote(r, weight=self.cfg.weight)
-            else:
-                print("Could not post:")
-                print(self.steem.e)
+            self.db.add_reply(r)
             
 
     def post_to_profile(self):
