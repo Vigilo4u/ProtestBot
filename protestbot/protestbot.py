@@ -98,14 +98,17 @@ class ProtestBot:
             return False
 
 
-    def reply_to_abuser_posts(self, parent=False):
-        self.get_all_posts_and_replies(parent)
+    def reply_to_abuser_posts(self, friends=False):
+        self.get_all_posts_and_replies(friends)
         pmsg = self.protest_temp()
         for r in self.replies:
             if self.steem.reply(r, pmsg):
                 self.db.add_reply(r)
-                if not parent and self.cfg.downvote:
+                if not friends and self.cfg.downvote:
                     self.steem.vote(r, weight=self.cfg.weight)
+            else:
+                print("Could not post:")
+                print(self.steem.e)
             
 
     def post_to_profile(self):
