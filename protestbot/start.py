@@ -43,6 +43,8 @@ replies                         Prints a list of all replies recently made
 replies-to-friends              Prints a list of replies recently made to 
                                 the abuser's post by others.
 
+upvote-downvoted                Finds all the authors downvoted by the abuser
+                                and gives them an upvote.
 
 ''')
     else:
@@ -80,6 +82,9 @@ def commander(selectedbot, command):
         a.get_all_posts_and_replies()
     elif command == "replies-to-friends":
         a.get_all_posts_and_replies(friends=True)
+    elif command == "upvote-downvoted":
+        a.find_downvoted_authors()
+        a.upvote_the_downvoted()
     else:
         print ("Invalid command.")
 

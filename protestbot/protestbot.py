@@ -72,9 +72,19 @@ class ProtestBot:
                             if b == author:
                                 duplicate_found = True
                         if not duplicate_found:
-                            self.the_abused.append(author)
+                            self.the_abused.append(ident)
                             print("\n__ *newly abused* __")
-                            print(author)
+                            print(ident)
+
+
+    def upvote_the_downvoted(self):
+        for a in self.the_abused:
+            if self.cfg.weight < 0:
+                w = self.cfg.weight * -1
+            else:
+                w = self.cfg.weight
+            self.steem.vote(a, weight=w)
+            print ("Upvoted {} by {}%".format(a, w))
 
 
     def send_memos_to_the_downvoted(self):
