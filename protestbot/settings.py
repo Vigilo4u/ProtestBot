@@ -10,6 +10,7 @@ class Config:
         self.tags = ['themarkymark', 'newsteem', 'downvotes', 'whales', 'steemitinc']
         self.downvote = True
         self.weight = -50
-
+        self.protest_template = "protest_template.txt"
+        self.memo_template = "memo_template.txt"
 
 # EOF

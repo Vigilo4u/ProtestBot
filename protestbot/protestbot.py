@@ -143,7 +143,7 @@ class ProtestBot:
 
 
     def protest_temp(self):
-        msg = self.template("protest_template.txt")
+        msg = self.template(self.cfg.protest_template)
         pmsg = msg.format(self.abuser_of_power, 
                         self.abuser_of_power,
                         self.protester_account,
@@ -158,7 +158,7 @@ class ProtestBot:
 
 
     def memo_temp(self):
-        msg = self.template("memo_template.txt")
+        msg = self.template(self.cfg.memo_template)
         return msg.format(self.abuser_of_power, 
                         self.abuser_of_power)
 
