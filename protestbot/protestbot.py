@@ -24,6 +24,7 @@ class ProtestBot:
         self.db = BotDB()
         self.db.initialize_database()
         self.db.initialize_abused_database()
+        self.db.initialize_upvoted_database()
 
                 
     def get_all_posts_and_replies(self, friends=False):
@@ -78,13 +79,15 @@ class ProtestBot:
 
 
     def upvote_the_downvoted(self):
-        for a in self.the_abused:
-            if self.cfg.weight < 0:
-                w = self.cfg.weight * -1
-            else:
-                w = self.cfg.weight
-            self.steem.vote(a, weight=w)
-            print ("Upvoted {} by {}%".format(a, w))
+        if self.the_abused is not None and len(self.the_abused) > 0:
+            for a in self.the_abused:
+                if not self.db.already_upvoted(a):
+                    if self.cfg.weight < 0:
+                        w = self.cfg.weight * -1
+                    else:
+                        w = self.cfg.weight
+                    self.steem.vote(a, weight=w)
+                    print ("Upvoted {} by {}%".format(a, w))
 
 
     def send_memos_to_the_downvoted(self):
@@ -200,6 +203,15 @@ class BotDB():
         self.conn.commit()
 
 
+    def initialize_upvoted_database(self):
+        self.c.execute("CREATE TABLE IF NOT EXISTS "
+                        + "upvoted"
+                        + " (ID INT "
+                        + "PRIMARY KEY, Identifier varchar(250) UNIQUE, "
+                        + "Time TIMESTAMP DEFAULT CURRENT_TIMESTAMP);")
+        self.conn.commit()
+
+
     def already_sent_memo(self, user):
         self.c.execute("SELECT * FROM "
                         + "the_abused"                     
@@ -214,6 +226,17 @@ class BotDB():
     def already_posted(self, identifier):
         self.c.execute("SELECT * FROM "
                         + "abusers_replies"                     
+                        + " WHERE Identifier = '%s';" % identifier)
+        rows = self.c.fetchall()
+        if len(rows) > 0:
+            return True
+        else:
+            return False
+
+
+    def already_upvoted(self, identifier):
+        self.c.execute("SELECT * FROM "
+                        + "upvoted"                     
                         + " WHERE Identifier = '%s';" % identifier)
         rows = self.c.fetchall()
         if len(rows) > 0:
