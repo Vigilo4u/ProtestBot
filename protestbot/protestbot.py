@@ -87,6 +87,7 @@ class ProtestBot:
                     else:
                         w = self.cfg.weight
                     self.steem.vote(a, weight=w)
+                    self.db.add_upvote(a)
                     print ("Upvoted {} by {}%".format(a, w))
 
 
@@ -249,6 +250,14 @@ class BotDB():
         print("Adding {}".format(identifier))
         self.c.execute("INSERT INTO "
                         + "abusers_replies"
+                        + " (Identifier) VALUES ('%s');" % identifier)
+        self.conn.commit()
+
+
+    def add_upvote(self, identifier):
+        print("Adding {}".format(identifier))
+        self.c.execute("INSERT INTO "
+                        + "upvoted"
                         + " (Identifier) VALUES ('%s');" % identifier)
         self.conn.commit()
 
